@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router()
-const {createContact} = require("../controllers/contactController.js")
+const {createContact, findContacts} = require("../controllers/contactController.js")
 
 // --------- routes for createing contacts------------//
 router.post("/savedContact", createContact)
 // --------- route for get user details----------//
-// router.get("/fetch",getUser)
+// router.get("/getContacts", findContacts)
+
 
 module.exports = router
