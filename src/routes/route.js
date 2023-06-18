@@ -5,7 +5,7 @@ const {createContact, findContacts} = require("../controllers/contactController.
 // --------- routes for createing contacts------------//
 router.post("/savedContact", createContact)
 // --------- route for get user details----------//
-// router.get("/getContacts", findContacts)
+router.get("/getContacts", findContacts)
 
 
 module.exports = router

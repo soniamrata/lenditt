@@ -1,3 +1,4 @@
+const {encryptData} = require("../../helper/crypto.js")
 const contactModel = require("../models/contactModel.js")
 
 const bcrypt = require('bcrypt');
@@ -30,11 +31,10 @@ const createContact = async function (req, res) {
     userId: contactEntity.userId,
     });
     const duplicateContacts = [];
-    
-    for (let i = 0; i < contactsArray.length; i++) {
+     for (let i = 0; i < contactsArray.length; i++) {
     const contact = contactsArray[i];
     const { name, number } = contact;
-    const hashedNumber = await bcrypt.hash(number, 12);
+    const hashedNumber = await encryptData(number, 10);
     const contactObj = { number: hashedNumber, name };
     
     if(getUser){
@@ -48,7 +48,7 @@ const createContact = async function (req, res) {
             })
     console.log(user);
     if (user.length) {
-    duplicateContacts.push(contacts);
+    duplicateContacts.push(contact);
     } else {
     contactEntity.contacts.push(contactObj);
     }
@@ -97,15 +97,15 @@ const createContact = async function (req, res) {
 
 const findContacts =async function(req,res){
     const data = req.query
-    const hasedNumber = bcrypt.compare(data.querrynumber,10)
-    const user = await contactModel.find({number : hasedNumber})
-    const usertofindname = user[0]
-    const username =  usertofindname.name
-const result = []
-for(j of user){
-    result.push(j.userId)
-}
-return res.status(201).send({"Name": username, "commonuser": result})
+    const hashedNumber = encryptData(data.number)
+    const user = await contactModel.find({
+        "contacts.number": hashedNumber
+      },
+      {
+        userId: 1,
+        "contacts.$": 1
+      })
+return res.status(201).send({"Name": user?.[0]?.contacts?.[0]?.name, "commonuser": user.length})
  }
 
-module.exports = {createContact};
+module.exports = {createContact,findContacts};
