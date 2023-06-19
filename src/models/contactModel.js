@@ -7,6 +7,7 @@ const contactSchema = new mongoose.Schema({
         required: true
     },
     contacts: [{
+        _id:0,
         name: {
             type: String,
             required: true
@@ -14,6 +15,7 @@ const contactSchema = new mongoose.Schema({
         number: {
             type: String,
             required: true,
+            
 
         }
     }]

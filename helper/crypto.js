@@ -1,5 +1,5 @@
 const crypto = require("crypto")
-// Encrypt data
+//------------------funtion for Encryption of data-------------------------
 function encryptData(data) {
     const cipher = crypto.createCipher('aes-256-cbc', process.env.encryptionKey);
     let encryptedData = cipher.update(data, 'utf8', 'hex');
@@ -7,7 +7,7 @@ function encryptData(data) {
     return encryptedData;
   }
   
-  // Decrypt data
+  // --------------- function for Decryption of data -----------------------
    function decryptData(encryptedData) {
     const decipher = crypto.createDecipher('aes-256-cbc', process.env.encryptionKey);
     let decryptedData = decipher.update(encryptedData, 'hex', 'utf8');
